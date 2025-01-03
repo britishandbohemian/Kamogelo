@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - Software Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="shared.css">
+</head>
+
+<body class="page-content">
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-toggle-text">THEME</span>
+    </button>
+
+    <div class="custom-cursor"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="section fade-up">
+                <h1>Get in Touch</h1>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder=" " required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder=" " required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder=" " required></textarea>
+                        <label for="message">Message</label>
+                    </div>
+                    <button type="submit" class="animated-button">Send Message</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <nav class="menu-container">
+        <a href="./index.html" class="menu-link">HOME</a>
+        <a href="./projects.html" class="menu-link">PROJECTS</a>
+        <a href="./about.html" class="menu-link">ABOUT</a>
+        <a href="./contact.html" class="menu-link active">CONTACT</a>
+    </nav>
+
+    <script src="shared.js"></script>
+</body>
+
+</html>
