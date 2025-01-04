@@ -400,3 +400,223 @@ body {
         padding: 0.4rem 0.8rem;
     }
 }
+
+/* Custom Cursor */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.7;
+    transform-origin: center;
+    mix-blend-mode: difference;
+    transition: transform 0.15s ease-out, width 0.2s ease, height 0.2s ease;
+}
+
+.custom-cursor.hover {
+    transform: scale(1.5);
+    opacity: 0.9;
+}
+
+@media (hover: hover) {
+    body {
+        cursor: none;
+    }
+
+    a,
+    button,
+    [role="button"],
+    input[type="submit"] {
+        cursor: none;
+    }
+}
+
+/* Material FAB Menu */
+.menu-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    background: rgba(var(--background-color-rgb), 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.75rem;
+    border-radius: 100px;
+    border: 1px solid rgba(var(--text-color-rgb), 0.1);
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-container:hover {
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.menu-link {
+    color: var(--text-color);
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-speed);
+    position: relative;
+}
+
+.menu-link svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.menu-link:hover {
+    background-color: rgba(var(--text-color-rgb), 0.1);
+}
+
+.menu-link:hover svg {
+    transform: scale(1.2);
+}
+
+.menu-link.active {
+    color: var(--accent-color);
+    background-color: rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* Add these new CSS variables at the top of your :root */
+:root {
+    /* ... existing variables ... */
+    --background-color-rgb: 255, 255, 255;
+    --text-color-rgb: 51, 51, 51;
+    --accent-color-rgb: 255, 77, 77;
+}
+
+[data-theme="dark"] {
+    /* ... existing variables ... */
+    --background-color-rgb: 26, 26, 26;
+    --text-color-rgb: 255, 255, 255;
+    --accent-color-rgb: 255, 107, 107;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.7;
+    transform-origin: center;
+    mix-blend-mode: difference;
+    transition: transform 0.15s ease-out, width 0.2s ease, height 0.2s ease;
+}
+
+.custom-cursor.hover {
+    transform: scale(1.5);
+    opacity: 0.9;
+}
+
+@media (hover: hover) {
+    body {
+        cursor: none;
+    }
+
+    a,
+    button,
+    [role="button"],
+    input[type="submit"] {
+        cursor: none;
+    }
+}
+
+/* Material FAB Menu */
+.menu-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    background: rgba(var(--background-color-rgb), 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.75rem;
+    border-radius: 100px;
+    border: 1px solid rgba(var(--text-color-rgb), 0.1);
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-container:hover {
+    transform: translateX(-50%) translateY(-5px);
+}
+
+
+/* Update the menu-link active state styles in shared.css */
+.menu-link.active {
+    color: var(--accent-color);
+    background-color: rgba(var(--accent-color-rgb), 0.15);
+    transform: scale(1.1);
+}
+
+.menu-link.active svg {
+    transform: scale(1.2);
+    fill: var(--accent-color);
+}
+
+
+.menu-link {
+    color: var(--text-color);
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-speed);
+    position: relative;
+}
+
+.menu-link svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.menu-link:hover {
+    background-color: rgba(var(--text-color-rgb), 0.1);
+}
+
+.menu-link:hover svg {
+    transform: scale(1.2);
+}
+
+.menu-link.active {
+    color: var(--accent-color);
+    background-color: rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* Add these new CSS variables at the top of your :root */
+:root {
+    /* ... existing variables ... */
+    --background-color-rgb: 255, 255, 255;
+    --text-color-rgb: 51, 51, 51;
+    --accent-color-rgb: 255, 77, 77;
+}
+
+[data-theme="dark"] {
+    /* ... existing variables ... */
+    --background-color-rgb: 26, 26, 26;
+    --text-color-rgb: 255, 255, 255;
+    --accent-color-rgb: 255, 107, 107;
+}

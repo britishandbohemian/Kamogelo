@@ -12,16 +12,84 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('theme', newTheme);
   });
 
-  // Custom Cursor
-  const cursor = document.querySelector('.cursor');
-  if (cursor) {
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+  const cursor = document.querySelector('.custom-cursor');
+  const interactiveElements = document.querySelectorAll('a, button, [role="button"], input[type="submit"]');
+  
+  if (cursor && window.matchMedia('(hover: hover)').matches) {
+    let cursorVisible = false;
+    
+// Replace the cursor movement code in shared.js
+const onMouseMove = (e) => {
+  const posX = e.clientX;
+  const posY = e.clientY;
+  
+  // Use requestAnimationFrame for smoother movement
+  requestAnimationFrame(() => {
+    cursor.style.left = `${posX}px`;
+    cursor.style.top = `${posY}px`;
+    cursor.style.transform = 'translate(-50%, -50%)';
+  });
+  
+  if (!cursorVisible) {
+    cursor.style.opacity = '1';
+    cursorVisible = true;
+  }
+};
+
+    const onMouseLeave = () => {
+      cursor.style.opacity = '0';
+      cursorVisible = false;
+    };
+
+    const onMouseEnter = () => {
+      cursor.style.opacity = '1';
+      cursorVisible = true;
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('mouseenter', onMouseEnter);
+    
+    // Handle cursor effects for interactive elements
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+      });
     });
+  } else if (cursor) {
+    // Remove cursor element on touch devices
+    cursor.remove();
   }
 
+  // Add this inside the DOMContentLoaded event listener
+// Menu active state management
+const updateActiveMenuLink = () => {
+  const currentPath = window.location.pathname;
+  const menuLinks = document.querySelectorAll('.menu-link');
+  
+  menuLinks.forEach(link => {
+    link.classList.remove('active');
+    if (currentPath === '/' && link.getAttribute('href') === './index.html') {
+      link.classList.add('active');
+    } else if (link.getAttribute('href') === `.${currentPath}`) {
+      link.classList.add('active');
+    }
+  });
+};
+
+// Call it initially
+updateActiveMenuLink();
+
+// Update on page load
+window.addEventListener('load', updateActiveMenuLink);
+
+
   // Slider functionality (if present)
-  const slides = document.querySelectorAll('.slide');
+  const slides = document.querySelectorAll('.slide'); 
   const indicators = document.querySelectorAll('.indicator');
   
   if (slides.length > 0 && indicators.length > 0) {
