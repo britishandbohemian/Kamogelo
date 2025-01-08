@@ -8,6 +8,126 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="shared.css">
+    <style>
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-tags {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            background: var(--tag-bg);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .project-tag:hover {
+            transform: scale(1.1);
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .project-description {
+            margin: 15px 0;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-button:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .project-link:hover {
+            background: var(--accent-color-dark);
+            transform: translateX(5px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .project-card {
+                box-shadow: none;
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .project-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .project-description {
+                margin: 10px 0;
+                display: inline;
+            }
+
+            h3,
+            .project-tags,
+            .project-description,
+            .project-link {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+        }
+    </style>
 </head>
 
 <body class="page-content">
@@ -22,7 +142,7 @@
             <section class="section fade-up">
                 <h1>Featured Projects</h1>
                 <div class="projects-grid">
-                    <div class="project-card">
+                    <div class="project-card" onclick="this.classList.toggle('active')">
                         <h3>E-Commerce Platform</h3>
                         <div class="project-tags">
                             <span class="project-tag">React</span>
@@ -35,7 +155,7 @@
                         <a href="#" class="project-link animated-button">View Project</a>
                     </div>
 
-                    <div class="project-card">
+                    <div class="project-card" onclick="this.classList.toggle('active')">
                         <h3>AI Task Manager</h3>
                         <div class="project-tags">
                             <span class="project-tag">Python</span>
@@ -47,7 +167,7 @@
                         <a href="#" class="project-link animated-button">View Project</a>
                     </div>
 
-                    <div class="project-card">
+                    <div class="project-card" onclick="this.classList.toggle('active')">
                         <h3>Cloud Analytics Dashboard</h3>
                         <div class="project-tags">
                             <span class="project-tag">Vue.js</span>
@@ -59,7 +179,7 @@
                         <a href="#" class="project-link animated-button">View Project</a>
                     </div>
 
-                    <div class="project-card">
+                    <div class="project-card" onclick="this.classList.toggle('active')">
                         <h3>Social Media Analytics</h3>
                         <div class="project-tags">
                             <span class="project-tag">Next.js</span>
@@ -106,6 +226,28 @@
     </nav>
 
     <script src="shared.js"></script>
+    <script>
+        // Initialize menu state
+        window.addEventListener('load', () => {
+            setActiveMenuItem();
+        });
+
+        // Update menu state on navigation
+        window.addEventListener('popstate', setActiveMenuItem);
+        function setActiveMenuItem() {
+            const currentPage = window.location.pathname.split('/').pop() || 'projects.html';
+            const menuLinks = document.querySelectorAll('.menu-link');
+
+            menuLinks.forEach(link => {
+                const linkPage = link.getAttribute('href').split('/').pop();
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

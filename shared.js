@@ -1,129 +1,96 @@
-// Theme Toggle and Cursor Management
 document.addEventListener('DOMContentLoaded', () => {
   // Theme Toggle
   const themeToggle = document.querySelector('.theme-toggle');
   const savedTheme = localStorage.getItem('theme') || 'light';
+  
+  // Initialize theme
   document.documentElement.setAttribute('data-theme', savedTheme);
+  document.body.setAttribute('data-theme', savedTheme);
 
   themeToggle?.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Update both documentElement and body
+      document.documentElement.setAttribute('data-theme', newTheme);
+      document.body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
   });
 
+  // Cursor Management
   const cursor = document.querySelector('.custom-cursor');
   const interactiveElements = document.querySelectorAll('a, button, [role="button"], input[type="submit"]');
-  
+
   if (cursor && window.matchMedia('(hover: hover)').matches) {
-    let cursorVisible = false;
-    
-// Replace the cursor movement code in shared.js
-const onMouseMove = (e) => {
-  const posX = e.clientX;
-  const posY = e.clientY;
-  
-  // Use requestAnimationFrame for smoother movement
-  requestAnimationFrame(() => {
-    cursor.style.left = `${posX}px`;
-    cursor.style.top = `${posY}px`;
-    cursor.style.transform = 'translate(-50%, -50%)';
-  });
-  
-  if (!cursorVisible) {
-    cursor.style.opacity = '1';
-    cursorVisible = true;
-  }
-};
+      let cursorVisible = false;
+      let rafId = null;
 
-    const onMouseLeave = () => {
-      cursor.style.opacity = '0';
-      cursorVisible = false;
-    };
+      const onMouseMove = (e) => {
+          if (rafId) {
+              cancelAnimationFrame(rafId);
+          }
 
-    const onMouseEnter = () => {
-      cursor.style.opacity = '1';
-      cursorVisible = true;
-    };
+          rafId = requestAnimationFrame(() => {
+              cursor.style.left = `${e.clientX}px`;
+              cursor.style.top = `${e.clientY}px`;
+              
+              if (!cursorVisible) {
+                  cursor.style.opacity = '1';
+                  cursorVisible = true;
+              }
+          });
+      };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave);
-    document.addEventListener('mouseenter', onMouseEnter);
-    
-    // Handle cursor effects for interactive elements
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
+      const onMouseLeave = () => {
+          cursor.style.opacity = '0';
+          cursorVisible = false;
+      };
+
+      const onMouseEnter = () => {
+          cursor.style.opacity = '1';
+          cursorVisible = true;
+      };
+
+      // Add event listeners
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseleave', onMouseLeave);
+      document.addEventListener('mouseenter', onMouseEnter);
+
+      // Interactive elements cursor effects
+      interactiveElements.forEach(el => {
+          el.addEventListener('mouseenter', () => {
+              cursor.classList.add('hover');
+          });
+          
+          el.addEventListener('mouseleave', () => {
+              cursor.classList.remove('hover');
+          });
       });
-      
-      el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
-      });
-    });
   } else if (cursor) {
-    // Remove cursor element on touch devices
-    cursor.remove();
+      cursor.remove();
   }
 
-  // Add this inside the DOMContentLoaded event listener
-// Menu active state management
-const updateActiveMenuLink = () => {
-  const currentPath = window.location.pathname;
-  const menuLinks = document.querySelectorAll('.menu-link');
-  
-  menuLinks.forEach(link => {
-    link.classList.remove('active');
-    if (currentPath === '/' && link.getAttribute('href') === './index.html') {
-      link.classList.add('active');
-    } else if (link.getAttribute('href') === `.${currentPath}`) {
-      link.classList.add('active');
-    }
-  });
-};
+  // Device detection and orientation handling
+  function detectDevice() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const orientation = width > height ? 'landscape' : 'portrait';
 
-// Call it initially
-updateActiveMenuLink();
+      document.body.setAttribute('data-orientation', orientation);
 
-// Update on page load
-window.addEventListener('load', updateActiveMenuLink);
+      const devices = document.querySelectorAll('.device');
+      devices.forEach(device => device.style.display = 'none');
 
-
-  // Slider functionality (if present)
-  const slides = document.querySelectorAll('.slide'); 
-  const indicators = document.querySelectorAll('.indicator');
-  
-  if (slides.length > 0 && indicators.length > 0) {
-    let currentSlide = 0;
-
-    function showSlide(index) {
-      slides.forEach(slide => slide.classList.remove('active'));
-      indicators.forEach(indicator => indicator.classList.remove('active'));
-      
-      slides[index].classList.add('active');
-      indicators[index].classList.add('active');
-    }
-
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        currentSlide = index;
-        showSlide(currentSlide);
-      });
-    });
-
-    // Auto-advance slides
-    setInterval(() => {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
-    }, 5000);
+      if (width < 768) {
+          document.querySelector('.phone-mockup').style.display = 'block';
+      } else if (width < 1200) {
+          document.querySelector('.tablet-mockup').style.display = 'block';
+      } else {
+          document.querySelector('.desktop-mockup').style.display = 'block';
+      }
   }
 
-  // Form handling (if present)
-  const contactForm = document.querySelector('.contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      // Add your form submission logic here
-      console.log('Form submitted');
-    });
-  }
-}); 
+  // Initialize device detection
+  detectDevice();
+  window.addEventListener('resize', detectDevice);
+});
